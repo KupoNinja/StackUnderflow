@@ -90,7 +90,6 @@ namespace StackUnderflow.Controllers
             }
             catch (Exception e)
             {
-                //TODO Uh-o something bad lets investigate
                 return BadRequest(e.Message);
             }
         }

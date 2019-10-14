@@ -30,14 +30,34 @@ namespace StackUnderflow.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Question> Get(string id)
         {
-            return "value";
+            try
+            {
+                return Ok(_qs.GetById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value) { }
+        public ActionResult<Question> Post([FromBody] Question question)
+        {
+            try
+            {
+                question.AuthorId = HttpContext.User.FindFirst("Id").Value;
+                Question postedQuestion = _qs.AddQuestion(question);
+
+                return Created("api/questions/" + postedQuestion.Id, postedQuestion);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         // PUT api/values/5
         [HttpPut("{id}")]
