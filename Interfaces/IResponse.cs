@@ -6,8 +6,8 @@ namespace StackUnderflow.Interfaces
     {
         string Id { get; set; }
         string Body { get; set; }
-        DateTime Replied { get; set; }
-        DateTime Edited { get; set; }
+        DateTime DateReplied { get; set; }
+        DateTime DateEdited { get; set; }
         string QuestionId { get; set; }
         string AuthorId { get; set; }
     }

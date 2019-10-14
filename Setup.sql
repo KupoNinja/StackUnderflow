@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS questions (
     id VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
     body VARCHAR(255) NOT NULL,
-    asked DATETIME NOT NULL,
-    edited DATETIME,
-    answered DATETIME,
+    dateasked DATETIME NOT NULL,
+    dateedited DATETIME,
+    dateanswered DATETIME,
     authorid VARCHAR(255) NOT NULL,
     answerid VARCHAR(255),
 
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS questions (
 CREATE TABLE IF NOT EXISTS responses (
     id VARCHAR(255) NOT NULL,
     body VARCHAR(255) NOT NULL,
-    replied DATETIME NOT NULL,
-    edited DATETIME,
+    datereplied DATETIME NOT NULL,
+    dateedited DATETIME,
     questionid VARCHAR(255) NOT NULL,
     authorid VARCHAR(255) NOT NULL,
 
@@ -73,3 +73,4 @@ CREATE TABLE IF NOT EXISTS questioncategories (
     FOREIGN KEY(categoryid)
         REFERENCES categories(id)
 );
+

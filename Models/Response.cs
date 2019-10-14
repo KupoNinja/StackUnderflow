@@ -7,8 +7,8 @@ namespace StackUnderflow.Models
     {
         public string Id { get; set; }
         public string Body { get; set; }
-        public DateTime Replied { get; set; }
-        public DateTime Edited { get; set; }
+        public DateTime DateReplied { get; set; }
+        public DateTime DateEdited { get; set; }
         public string QuestionId { get; set; }
         public string AuthorId { get; set; }
     }
