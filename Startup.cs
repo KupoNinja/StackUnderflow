@@ -35,6 +35,9 @@ namespace StackUnderflow
             AddDefaultServices(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddTransient<QuestionsService>();
+            services.AddTransient<QuestionsRepository>();
         }
 
         private void AddDefaultServices(IServiceCollection services)
