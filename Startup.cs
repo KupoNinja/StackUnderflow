@@ -38,6 +38,9 @@ namespace StackUnderflow
 
             services.AddTransient<QuestionsService>();
             services.AddTransient<QuestionsRepository>();
+
+            services.AddTransient<ResponsesService>();
+            services.AddTransient<ResponsesRepository>();
         }
 
         private void AddDefaultServices(IServiceCollection services)

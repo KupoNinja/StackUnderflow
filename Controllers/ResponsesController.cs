@@ -12,18 +12,17 @@ namespace StackUnderflow.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionsController : ControllerBase
+    public class ResponsesController : ControllerBase
     {
-        private readonly QuestionsService _qs;
         private readonly ResponsesService _rs;
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Question>> GetAll()
+        public ActionResult<IEnumerable<Response>> GetAll()
         {
             try
             {
-                return Ok(_qs.GetAll());
+                return Ok(_rs.GetAll());
             }
             catch (Exception e)
             {
@@ -33,11 +32,11 @@ namespace StackUnderflow.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Question> GetById(string id)
+        public ActionResult<Response> GetById(string id)
         {
             try
             {
-                return Ok(_qs.GetById(id));
+                return Ok(_rs.GetById(id));
             }
             catch (Exception e)
             {
@@ -45,29 +44,16 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        [HttpGet("{id}/responses")]
-        public ActionResult<IEnumerable<Response>> GetAllResponses(string id)
-        {
-            try
-            {
-                return Ok(_rs.GetAllByQuestion(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [Authorize]
+        // POST api/values
         [HttpPost]
-        public ActionResult<Question> CreateQuestion([FromBody] Question question)
+        public ActionResult<Response> Post([FromBody] Response response)
         {
             try
             {
-                question.AuthorId = HttpContext.User.FindFirst("Id").Value;
-                Question postedQuestion = _qs.AddQuestion(question);
+                response.AuthorId = HttpContext.User.FindFirst("Id").Value;
+                Response postedResponse = _rs.AddResponse(response);
 
-                return Created("api/questions/" + postedQuestion.Id, postedQuestion);
+                return Created("api/questions/" + postedResponse.Id, postedResponse);
             }
             catch (Exception e)
             {
@@ -75,14 +61,14 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        [Authorize]
+        // PUT api/values/5
         [HttpPut("{id}")]
-        public ActionResult<Question> UpdateQuestion(string id, [FromBody] Question questionData)
+        public ActionResult<Response> Put(string id, [FromBody] Response responseData)
         {
             try
             {
-                questionData.Id = id;
-                return Ok(_qs.UpdateQuestion(questionData));
+                responseData.Id = id;
+                return Ok(_rs.UpdateResponse(responseData));
             }
             catch (Exception e)
             {
@@ -90,13 +76,13 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        [Authorize]
+        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public ActionResult<string> DeleteQuestion(string id)
+        public ActionResult<string> Delete(string id)
         {
             try
             {
-                return Ok(_qs.DeleteQuestion(id));
+                return Ok(_rs.DeleteResponse(id));
             }
             catch (Exception e)
             {
@@ -104,9 +90,8 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        public QuestionsController(QuestionsService qs, ResponsesService rs)
+        public ResponsesController(ResponsesService rs)
         {
-            _qs = qs;
             _rs = rs;
         }
     }

@@ -38,6 +38,9 @@ namespace StackUnderflow.Services
         public Question UpdateQuestion(Question questionData)
         {
             var question = _qs.GetById(questionData.Id);
+            question.Title = questionData.Title;
+            question.Body = questionData.Body;
+            question.DateAnswered = questionData.DateAnswered;
             question.DateEdited = DateTime.Now;
             var updatedQuestion = _qs.Edit(question);
 
