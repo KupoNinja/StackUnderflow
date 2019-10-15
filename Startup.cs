@@ -41,6 +41,9 @@ namespace StackUnderflow
 
             services.AddTransient<ResponsesService>();
             services.AddTransient<ResponsesRepository>();
+
+            services.AddTransient<CategoriesService>();
+            services.AddTransient<CategoriesRepository>();
         }
 
         private void AddDefaultServices(IServiceCollection services)

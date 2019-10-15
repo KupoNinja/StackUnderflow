@@ -16,6 +16,7 @@ namespace StackUnderflow.Controllers
     {
         private readonly QuestionsService _qs;
         private readonly ResponsesService _rs;
+        private readonly CategoriesService _cs;
 
         // GET api/values
         [HttpGet]
@@ -60,14 +61,28 @@ namespace StackUnderflow.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult<Question> CreateQuestion([FromBody] Question question)
+        public ActionResult<Question> CreateQuestion([FromBody] Question questionData)
         {
             try
             {
-                question.AuthorId = HttpContext.User.FindFirst("Id").Value;
-                Question postedQuestion = _qs.AddQuestion(question);
+                questionData.AuthorId = HttpContext.User.FindFirst("Id").Value;
+                Question postedQuestion = _qs.AddQuestion(questionData);
 
                 return Created("api/questions/" + postedQuestion.Id, postedQuestion);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{id}/categories")]
+        public ActionResult<bool> AddCategoryToQuestion(string id, [FromBody] Category categoryData)
+        {
+            try
+            {
+                categoryData.Id = id;
+                return Ok(_cs.AddCategoryToQuestion(categoryData.Id));
             }
             catch (Exception e)
             {
@@ -104,10 +119,11 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        public QuestionsController(QuestionsService qs, ResponsesService rs)
+        public QuestionsController(QuestionsService qs, ResponsesService rs, CategoriesService cs)
         {
             _qs = qs;
             _rs = rs;
+            _cs = cs;
         }
     }
 }
