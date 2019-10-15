@@ -26,13 +26,31 @@ namespace StackUnderflow.Services
             return question;
         }
 
-        public Question AddQuestion(Question question)
+        public Question AddQuestion(Question questionData)
         {
-            question.Id = Guid.NewGuid().ToString();
-            question.DateAsked = DateTime.Now;
-            var postedQuestion = _qs.Create(question);
+            questionData.Id = Guid.NewGuid().ToString();
+            questionData.DateAsked = DateTime.Now;
+            var postedQuestion = _qs.Create(questionData);
 
             return postedQuestion;
+        }
+
+        public Question UpdateQuestion(Question questionData)
+        {
+            var question = _qs.GetById(questionData.Id);
+            question.DateEdited = DateTime.Now;
+            var updatedQuestion = _qs.Edit(question);
+
+            return updatedQuestion;
+        }
+
+        public string DeleteQuestion(string id)
+        {
+            var question = _qs.GetById(id);
+            var deleted = _qs.Delete(question.Id);
+            if (!deleted) { throw new Exception("This question too STRONK! Unable to delete the question."); }
+
+            return id;
         }
 
         public QuestionsService(QuestionsRepository qs)
