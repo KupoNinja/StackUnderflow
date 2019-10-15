@@ -46,7 +46,7 @@ namespace StackUnderflow.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<Category> Post([FromBody] Category category)
+        public ActionResult<Category> Create([FromBody] Category category)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace StackUnderflow.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public ActionResult<Category> Put(string id, [FromBody] Category categoryData)
+        public ActionResult<Category> Edit(string id, [FromBody] Category categoryData)
         {
             try
             {

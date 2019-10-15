@@ -10,7 +10,6 @@ namespace StackUnderflow.Services
     public class CategoriesService
     {
         private readonly CategoriesRepository _repo;
-        private readonly QuestionsService _qrepo;
 
         public List<Category> GetAll()
         {
@@ -45,14 +44,12 @@ namespace StackUnderflow.Services
         }
 
         // TODO Finish this
-        public bool AddCategoryToQuestion(QuestionCategory questionCategory)
+        public bool AddCategoryToQuestion(QuestionCategory qCategory)
         {
-            var qCategory = new QuestionCategory();
+
             qCategory.Id = Guid.NewGuid().ToString();
-            qCategory.Action = questionCategory.Action;
             var category = _repo.GetById(qCategory.CategoryId);
-            // var question = _qrepo.GetById();
-            var success = _repo.AddCategoryToQuestion(category);
+            var success = _repo.AddCategoryToQuestion(qCategory);
 
             return success;
         }
@@ -60,6 +57,8 @@ namespace StackUnderflow.Services
         public Category UpdateCategory(Category categoryData)
         {
             var category = _repo.GetById(categoryData.Id);
+            var success = _repo.CheckQuestCatExists(category.Id);
+            if (success) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
             category.Name = categoryData.Name;
             var updatedCategory = _repo.Edit(category);
 
@@ -69,16 +68,17 @@ namespace StackUnderflow.Services
         public string DeleteCategory(string id)
         {
             var category = _repo.GetById(id);
+            var success = _repo.CheckQuestCatExists(category.Id);
+            if (success) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
             var deleted = _repo.Delete(category.Id);
             if (!deleted) { throw new Exception("This category too STRONK! Unable to delete the category."); }
 
             return id;
         }
 
-        public CategoriesService(CategoriesRepository repo, QuestionsService qrepo)
+        public CategoriesService(CategoriesRepository repo)
         {
             _repo = repo;
-            _qrepo = qrepo;
         }
     }
 }

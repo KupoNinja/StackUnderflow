@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Dapper;
 using StackUnderflow.Models;
 
@@ -21,13 +22,16 @@ namespace StackUnderflow.Data
             return _db.QueryFirstOrDefault<Category>(sql, new { id });
         }
 
-        // public IEnumerable<Category> GetAllByQuestion(string id)
-        // {
-        //     return _db.Query<Category>(
-        //         "SELECT * FROM categories;",
-        //         new { id }
-        //     );
-        // }
+        public bool CheckQuestCatExists(string id)
+        {
+            var category = _db.QueryFirstOrDefault<Category>(
+               "SELECT * FROM questioncategories WHERE categoryid = id;",
+               new { id }
+            );
+            if (category != null) { return true; }
+
+            return false;
+        }
 
         // NOTE Change columns
         public Category Create(Category category)
@@ -51,14 +55,14 @@ namespace StackUnderflow.Data
             return category;
         }
 
-        public bool AddCategoryToQuestion(Category category)
+        public bool AddCategoryToQuestion(QuestionCategory qCategory)
         {
             var sql = @"
             INSERT INTO questioncategories
             (id, questionid, categoryid) VALUES
             (@Id, @QuestionId, @CategoryId)
             ;";
-            var success = _db.Execute(sql, category);
+            var success = _db.Execute(sql, qCategory);
             if (success == 1) { return true; }
 
             return false;

@@ -77,13 +77,12 @@ namespace StackUnderflow.Controllers
         }
 
         [HttpPut("{id}/categories")]
-        public ActionResult<bool> AddCategoryToQuestion(string id, [FromBody] QuestionCategory questionCategory)
+        public ActionResult<bool> AddCategoryToQuestion(string id, [FromBody] QuestionCategory qCategory)
         {
             try
             {
-                //NOTE  id is question id, categoryId is passed in
-                questionCategory.CategoryId = id;
-                return Ok(_cs.AddCategoryToQuestion(questionCategory));
+                qCategory.QuestionId = id;
+                return Ok(_cs.AddCategoryToQuestion(qCategory));
             }
             catch (Exception e)
             {

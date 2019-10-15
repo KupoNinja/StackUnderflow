@@ -46,7 +46,7 @@ namespace StackUnderflow.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<Response> Post([FromBody] Response response)
+        public ActionResult<Response> AddResponse([FromBody] Response response)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace StackUnderflow.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public ActionResult<Response> Put(string id, [FromBody] Response responseData)
+        public ActionResult<Response> EditResponse(string id, [FromBody] Response responseData)
         {
             try
             {
