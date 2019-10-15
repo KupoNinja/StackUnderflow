@@ -45,9 +45,12 @@ namespace StackUnderflow.Services
         }
 
         // TODO Finish this
-        public bool AddCategoryToQuestion(string id)
+        public bool AddCategoryToQuestion(QuestionCategory questionCategory)
         {
-            var category = _repo.GetById(id);
+            var qCategory = new QuestionCategory();
+            qCategory.Id = Guid.NewGuid().ToString();
+            qCategory.Action = questionCategory.Action;
+            var category = _repo.GetById(qCategory.CategoryId);
             // var question = _qrepo.GetById();
             var success = _repo.AddCategoryToQuestion(category);
 
