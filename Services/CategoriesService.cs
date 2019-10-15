@@ -26,15 +26,6 @@ namespace StackUnderflow.Services
             return category;
         }
 
-        // NOTE No similar method needed
-        // public List<Category> GetAllByQuestion(string id)
-        // {
-        //     // var categories = _repo.GetAllByQuestion(id).ToList();
-        //     if (categories == null) { throw new Exception("No variety for you! There are no categories."); }
-
-        //     return categories;
-        // }
-
         public Category AddCategory(Category categoryData)
         {
             categoryData.Id = Guid.NewGuid().ToString();
@@ -57,8 +48,8 @@ namespace StackUnderflow.Services
         public Category UpdateCategory(Category categoryData)
         {
             var category = _repo.GetById(categoryData.Id);
-            var success = _repo.CheckQuestCatExists(category.Id);
-            if (success) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
+            var questCat = _repo.CheckQuestCatExists(category.Id).ToList();
+            if (questCat == null) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
             category.Name = categoryData.Name;
             var updatedCategory = _repo.Edit(category);
 
@@ -68,8 +59,8 @@ namespace StackUnderflow.Services
         public string DeleteCategory(string id)
         {
             var category = _repo.GetById(id);
-            var success = _repo.CheckQuestCatExists(category.Id);
-            if (success) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
+            var questCat = _repo.CheckQuestCatExists(category.Id);
+            if (questCat == null) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
             var deleted = _repo.Delete(category.Id);
             if (!deleted) { throw new Exception("This category too STRONK! Unable to delete the category."); }
 

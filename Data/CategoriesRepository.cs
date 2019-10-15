@@ -22,15 +22,16 @@ namespace StackUnderflow.Data
             return _db.QueryFirstOrDefault<Category>(sql, new { id });
         }
 
-        public bool CheckQuestCatExists(string id)
+        // NOTE Why does this have a count of 0?
+        public IEnumerable<QuestionCategory> CheckQuestCatExists(string id)
         {
-            var category = _db.QueryFirstOrDefault<Category>(
+            var questCat = _db.Query<QuestionCategory>(
                "SELECT * FROM questioncategories WHERE categoryid = id;",
                new { id }
             );
-            if (category != null) { return true; }
 
-            return false;
+
+            return questCat;
         }
 
         // NOTE Change columns
