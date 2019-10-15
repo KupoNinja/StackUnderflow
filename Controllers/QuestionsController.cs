@@ -82,7 +82,7 @@ namespace StackUnderflow.Controllers
             try
             {
                 questionCategory.CategoryId = id;
-                return Ok(_cs.AddCategoryToQuestion(categoryData));
+                return Ok(_cs.AddCategoryToQuestion(questionCategory));
             }
             catch (Exception e)
             {
