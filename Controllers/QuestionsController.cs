@@ -81,6 +81,7 @@ namespace StackUnderflow.Controllers
         {
             try
             {
+                //NOTE  id is question id, categoryId is passed in
                 questionCategory.CategoryId = id;
                 return Ok(_cs.AddCategoryToQuestion(questionCategory));
             }
