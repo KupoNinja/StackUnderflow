@@ -16,7 +16,6 @@ namespace StackUnderflow.Controllers
     {
         private readonly ResponsesService _rs;
 
-        // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Response>> GetAll()
         {
@@ -30,7 +29,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Response> GetById(string id)
         {
@@ -44,7 +42,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // POST api/values
         [HttpPost]
         public ActionResult<Response> AddResponse([FromBody] Response response)
         {
@@ -61,7 +58,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public ActionResult<Response> EditResponse(string id, [FromBody] Response responseData)
         {
@@ -76,7 +72,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(string id)
         {

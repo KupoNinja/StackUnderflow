@@ -16,7 +16,6 @@ namespace StackUnderflow.Controllers
     {
         private readonly CategoriesService _cs;
 
-        // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Category>> GetAll()
         {
@@ -30,7 +29,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Category> GetById(string id)
         {
@@ -44,7 +42,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // POST api/values
         [HttpPost]
         public ActionResult<Category> Create([FromBody] Category category)
         {
@@ -60,7 +57,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public ActionResult<Category> Edit(string id, [FromBody] Category categoryData)
         {
@@ -75,7 +71,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(string id)
         {

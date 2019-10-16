@@ -18,7 +18,6 @@ namespace StackUnderflow.Controllers
         private readonly ResponsesService _rs;
         private readonly CategoriesService _cs;
 
-        // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Question>> GetAll()
         {
@@ -32,7 +31,6 @@ namespace StackUnderflow.Controllers
             }
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Question> GetById(string id)
         {
