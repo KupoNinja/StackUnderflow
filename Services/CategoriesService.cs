@@ -34,10 +34,9 @@ namespace StackUnderflow.Services
             return savedCategory;
         }
 
-        // TODO Finish this
+        // TODO Check for duplicate?
         public bool AddCategoryToQuestion(QuestionCategory qCategory)
         {
-
             qCategory.Id = Guid.NewGuid().ToString();
             var category = _repo.GetById(qCategory.CategoryId);
             var success = _repo.AddCategoryToQuestion(qCategory);
@@ -47,9 +46,9 @@ namespace StackUnderflow.Services
 
         public Category UpdateCategory(Category categoryData)
         {
+            var questCat = _repo.GetQuestCatByCatId(categoryData.Id);
+            if (questCat != null) { throw new Exception("This has a majestic Quest Cat! You shall not edit!"); }
             var category = _repo.GetById(categoryData.Id);
-            var questCat = _repo.CheckQuestCatExists(category.Id).ToList();
-            if (questCat == null) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
             category.Name = categoryData.Name;
             var updatedCategory = _repo.Edit(category);
 
@@ -58,11 +57,14 @@ namespace StackUnderflow.Services
 
         public string DeleteCategory(string id)
         {
-            var category = _repo.GetById(id);
-            var questCat = _repo.CheckQuestCatExists(category.Id);
-            if (questCat == null) { throw new Exception("This category has been sealed with a question. You shall not edit!"); }
-            var deleted = _repo.Delete(category.Id);
-            if (!deleted) { throw new Exception("This category too STRONK! Unable to delete the category."); }
+            var questCat = _repo.GetQuestCatByCatId(id);
+            if (questCat != null) { throw new Exception("This has a majestic Quest Cat! You shall not delete!"); }
+            var deleted = _repo.DeleteQuestCat(id);
+            if (deleted)
+            {
+                var success = _repo.Delete(id);
+                if (!success) { throw new Exception("This category too STRONK! Unable to delete the category."); }
+            }
 
             return id;
         }

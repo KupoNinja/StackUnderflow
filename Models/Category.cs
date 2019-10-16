@@ -8,7 +8,6 @@ namespace StackUnderflow.Models
         public string Name { get; set; }
     }
 
-    // NOTE For later...
     public class QuestionCategory
     {
         public string Id { get; set; }

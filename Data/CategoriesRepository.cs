@@ -22,19 +22,13 @@ namespace StackUnderflow.Data
             return _db.QueryFirstOrDefault<Category>(sql, new { id });
         }
 
-        // NOTE Why does this have a count of 0?
-        public IEnumerable<QuestionCategory> CheckQuestCatExists(string id)
+        public QuestionCategory GetQuestCatByCatId(string id)
         {
-            var questCat = _db.Query<QuestionCategory>(
-               "SELECT * FROM questioncategories WHERE categoryid = id;",
-               new { id }
-            );
+            var sql = @"SELECT * FROM questioncategories WHERE categoryid = @id;";
 
-
-            return questCat;
+            return _db.QueryFirstOrDefault<QuestionCategory>(sql, new { id });
         }
 
-        // NOTE Change columns
         public Category Create(Category category)
         {
             var sql = @"INSERT INTO categories 
@@ -44,7 +38,6 @@ namespace StackUnderflow.Data
             return category;
         }
 
-        // NOTE Change columns
         public Category Edit(Category category)
         {
             var sql = @"
@@ -72,6 +65,14 @@ namespace StackUnderflow.Data
         public bool Delete(string id)
         {
             var success = _db.Execute(@"DELETE FROM categories WHERE id = @Id", new { id });
+            if (success == 1) { return true; }
+
+            return false;
+        }
+
+        public bool DeleteQuestCat(string id)
+        {
+            var success = _db.Execute(@"DELETE FROM questioncategories WHERE categoryid = @Id", new { id });
             if (success == 1) { return true; }
 
             return false;
